@@ -8,3 +8,6 @@ wheels/
 
 # Virtual environments
 .venv
+oscilador_tensorflow_backup.ipynb
+oscilador.ipynb
+lorenz-PI-ESN.ipynb

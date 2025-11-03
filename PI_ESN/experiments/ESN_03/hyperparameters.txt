@@ -1,0 +1,51 @@
+# ==========================================================
+# Experiment Configuration - Van der Pol + ESN
+# ==========================================================
+
+# -----------------------------
+# Input Signal Configuration
+# -----------------------------
+config = {
+    "segments": [
+        {"type": "constant", "value": 1, "points": 2500},
+        {"type": "constant", "value": 3, "points": 1000},
+        {"type": "constant", "value": 0.5, "points": 1500},
+    ]
+}
+
+# -----------------------------
+# Van der Pol Oscillator Parameters
+# -----------------------------
+mu = 1.0
+dt = 0.1
+initial_state = (2.0, 2.0)
+
+# -----------------------------
+# Data Splitting Parameters
+# -----------------------------
+train_size = 2500
+test_size = 2500
+warm_up = 500
+
+# -----------------------------
+# Echo State Network (ESN) Parameters
+# -----------------------------
+ESN = {
+    "input_size": 1,
+    "output_size": 2,
+    "train_size": 2500,
+    "test_size": 2500,
+    "warm_up": 500,
+    "random_seed": 123,
+    "reservoir_size": 400,
+
+    # Weight initialization
+    "spectral_radius": 0.8,
+    "Win_scaling": 0.1,
+    "Wf_scaling": 0.01,
+    "Wb_scaling": 0.0,
+
+    # Training
+    "leak_rate": 1.0,
+    "regularization": 1e-3
+}

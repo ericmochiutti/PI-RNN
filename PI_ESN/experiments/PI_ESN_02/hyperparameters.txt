@@ -1,0 +1,73 @@
+# ==========================================================
+# Experiment Configuration - Van der Pol + PI-ESN
+# ==========================================================
+
+# -----------------------------
+# Input Signal Configuration
+# -----------------------------
+signal_config = {
+    "segments": [
+        {"type": "prbs", "points": 1000, "a_range": [0, 1], "b_range": [200, 300]},
+        {"type": "prbs", "points": 500, "a_range": [0, 1], "b_range": [300, 800]},
+        {"type": "constant", "value": 2.0, "points": 500},
+        {"type": "prbs", "points": 1000, "a_range": [0, 1], "b_range": [500, 1000]},
+        {"type": "constant", "value": 1.7, "points": 500},
+        {"type": "prbs", "points": 2000, "a_range": [0, 1], "b_range": [500, 1000]},
+    ],
+    "seed": 42
+}
+
+# -----------------------------
+# Van der Pol Oscillator Parameters
+# -----------------------------
+vdp_params = {
+    "mu": 1.0,
+    "dt": 0.1,
+    "initial_state": (2.0, 2.0)
+}
+
+# -----------------------------
+# Data Splitting Parameters
+# -----------------------------
+data_split = {
+    "train_size": 500,
+    "test_size": 5000,
+    "warm_up": 100
+}
+
+# -----------------------------
+# Echo State Network (ESN) Parameters
+# -----------------------------
+ESN = {
+    "input_size": 1,
+    "output_size": 2,
+    "train_size": 500,
+    "test_size": 5000,
+    "warm_up": 100,
+    "random_seed": 41,
+    "reservoir_size": 100,
+
+    # Weight initialization
+    "spectral_radius": 0.8,
+    "Win_scaling": 0.15,
+    "Wf_scaling": 0.15,
+    "Wb_scaling": 0.0,
+
+    # Training
+    "leak_rate": 1.0,
+    "regularization": 1e-4
+}
+
+# -----------------------------
+# Physics-Informed ESN (PI-ESN) Parameters
+# -----------------------------
+PIESN = {
+    "dt": 0.1,
+    "physics_weight": 1e-3,          # λ_phy (constraint weight)
+    "collocation_points": 2000,      # number of physical points used
+    "subsampling": 1,                # time step multiplier for physical loss
+    "max_iterations": 100,           # max LBFGS iterations
+    "max_line_search_iterations": 100,
+    "tolerance": 1e-9,
+    "epochs": 100,                   # outer loop updates
+}
