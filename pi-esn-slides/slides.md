@@ -27,11 +27,16 @@ colorSchema: light
 <img src="./background/90941.jpg" alt="background" class="full-bg" />
 
 # Physics Informed Echo State Networks
+<br>
+<br>
 
 ## Eric Mochiutti  
-
+<br>
+<br>
 <div class="footer-info">
 Universidade de São Paulo  
+<br>
+<br>
 <br>
 Novembro de 2025
 </div>
@@ -151,7 +156,7 @@ transition: fade-out
 
 <v-click>
 
-#### 🔹 Atualização dos estados
+#### Atualização dos estados
 
 $$
 \mathbf{x}[n + 1] =
@@ -173,10 +178,13 @@ $$
 
 </v-click>
 
+<v-click>
+
 <div class="text-center mt-4 text-sm text-gray-600 italic">
 A cada passo temporal, o novo estado <b>x[n+1]</b> combina o estado anterior e a entrada atual,
 passando por uma função de ativação não linear.
 </div>
+</v-click>
 
 <style>
 img:hover { transform: scale(1.05); transition: 0.3s; }
@@ -389,7 +397,6 @@ mjx-container {
 ---
 transition: fade-out
 ---
-
 ```python
 import numpy as np
 
@@ -595,20 +602,206 @@ transition: fade-out
 layout: default
 ---
 
-# Performance da ESN no Sistema Van der Pol
+# Physics-Informed Echo State Network (PI-ESN)
 
-<div class="grid grid-cols-2 gap-4 mt-4 h-full">
+A **ESN** é estendida para incorporar **conhecimento físico (ODEs)** na sua função de custo.
 
-  <div class="flex flex-col items-center">
-    <h3 class="text-xl font-semibold mb-2 text-center">Dados de Treinamento e Teste</h3>
-    <img src="/images/PI_ESN_02/train_test_data.jpg" alt="Dados de Treinamento e Teste Van der Pol" class="rounded-lg shadow-xl w-full" style="max-height: 70vh;">
-    <p class="text-sm text-gray-500 mt-2 italic"></p>
-  </div>
-  
-  <div class="flex flex-col items-center">
-    <h3 class="text-xl font-semibold mb-2 text-center">Predição da ESN </h3>
-    <img src="/images/PI_ESN_02/esn_train_test_vanderpol.jpg" alt="Predição ESN vs Saída do Sistema" class="rounded-lg shadow-xl w-full" style="max-height: 70vh;">
-    <p class="text-sm text-gray-500 mt-2 italic"></p>
-  </div>
+## 1. Arquitetura Physics-Informed Echo State Network
 
+A PI-ESN é uma **rede recorrente de tempo discreto** que minimiza:
+
+$$J = \lambda_{data} J_{data} + \lambda_{phy} J_{phy}$$
+
+<div class="grid grid-cols-1 place-items-center mt-6">
+  <img src="/images/PI_ESN.jpg" alt="Diagrama da Physics-Informed Echo State Network (PI-ESN)" class="w-1.5/3 rounded-lg shadow-xl">
+  <p class="text-sm text-gray-500 mt-3 italic">A ESN é treinada minimizando o custo total ($J$).</p>
 </div>
+
+
+---
+transition: fade-out
+---
+## Cálculo da Perda Física
+
+A lei física é discretizada para calcular a perda em cada, formando a função de resíduo $\mathcal{F}$. O treinamento da PI-ESN utiliza dados no intervalo $[0, T]$ e <span v-mark.underline.red = "2">**pontos de colocação** no intervalo $(T, T_f]$ </span> para a perda física .
+
+<div class="grid grid-cols-1 place-items-center mt-6">
+  <img src="/images/Data_collocation_1.jpg" alt="Representação dos pontos de colocação da PI-ESN" class="w-2/3 rounded-lg shadow-xl">
+</div>
+
+---
+transition: fade-out
+---
+```python
+class PIESN:
+    def __init__(self, ESN, dt, cons_phy, colocation_points, subsampling):
+        self.ESN = ESN
+        self.PI_ESN = deepcopy(ESN)
+        self.dt = dt
+        self.cons_phy = cons_phy
+        self.colocation_points = colocation_points
+        self.subsampling = subsampling
+        self.cost_data_list = []
+        self.cost_physics_list = []
+        self.output_prediction_PI = None
+        self.MSE_list = []
+        self.param_data_list = []
+        self.param_phy_list = []
+```
+
+---
+transition: fade-out
+---
+```python
+    def physical_regularization_vanderpol(self):
+        def Wout_to_woutparam(Wout):
+            # TRANSFORM THE 2D Wout array into 1D array for LBFGS FUNCTION
+            Wout_1 = np.reshape(Wout[0, :], self.PI_ESN.reservoir_size)
+            Wout_2 = np.reshape(Wout[1, :], self.PI_ESN.reservoir_size)
+            Wout_param = np.hstack((Wout_1, Wout_2))
+            return Wout_param
+
+        def woutparam_to_Wout(Wout_param):
+            # TRANSFORM THE 1D Wout array into 2D array
+            Wout = np.reshape(
+                Wout_param[: int(self.PI_ESN.reservoir_size * self.PI_ESN.output_size)],
+                (self.PI_ESN.output_size, self.PI_ESN.reservoir_size),
+            )
+            return Wout
+```
+
+---
+transition: fade-out
+---
+```python
+        def loss_data(Wout_param):
+            y1 = tf.linalg.matvec(
+                self.PI_ESN.X_train.T, Wout_param[: self.PI_ESN.reservoir_size]
+            )
+            y2 = tf.linalg.matvec(
+                self.PI_ESN.X_train.T,
+                Wout_param[
+                    self.PI_ESN.reservoir_size : int(self.PI_ESN.reservoir_size * 2)
+                ],
+            )
+
+            cost_data_1 = (1 / (self.PI_ESN.train_size)) * tf.experimental.numpy.sum(
+                (y1 - self.PI_ESN.Yt[0, :]) ** 2
+            )
+            cost_data_2 = (1 / (self.PI_ESN.train_size)) * tf.experimental.numpy.sum(
+                (y2 - self.PI_ESN.Yt[1, :]) ** 2
+            )
+            cost_data = (cost_data_1 + cost_data_2) / 2
+
+            return cost_data
+```
+
+---
+transition: fade-out
+---
+```python
+        def loss_physics(Wout_param):
+            u_data_phy = self.PI_ESN.input_data_test[:, : self.PI_ESN.test_size - 1]
+            dt_phy = self.dt * self.subsampling
+
+            y1 = tf.linalg.matvec(self.PI_ESN.X_test.T, Wout_param[: self.PI_ESN.reservoir_size])
+            y2 = tf.linalg.matvec(
+                self.PI_ESN.X_test.T,Wout_param[self.PI_ESN.reservoir_size : int(self.PI_ESN.reservoir_size * 2)],)
+
+            h1 = y1[: self.colocation_points - 1]
+            h2 = y2[: self.colocation_points - 1]
+            hn1 = y1[1 : self.colocation_points]
+            hn2 = y2[1 : self.colocation_points]
+            mu = 1
+
+            cost_physics_1 = (h2 * dt_phy - hn1 + h1) ** 2
+            cost_physics_2 = ((-mu * (h1**2 - 1) * h2 - h1 + u_data_phy[0, : (self.colocation_points - 1)]) 
+            * dt_phy+ h2 - hn2) ** 2
+
+            cost_physics = tf.experimental.numpy.sum(
+                cost_physics_1 + cost_physics_2
+            ) / (self.PI_ESN.output_size * self.colocation_points)
+
+            return cost_physics
+```
+
+---
+transition: fade-out
+---
+```python
+        def cost_gradient(Wout_param):
+            Wout_param = tf.Variable(Wout_param, trainable=True)
+
+            with tf.GradientTape() as tape:
+                cost_data = loss_data(Wout_param)
+                self.cost_data_list.append(cost_data)
+                cost_physics = loss_physics(Wout_param)
+                self.cost_physics_list.append(cost_physics)
+
+                cost = 1 * cost_data + self.cons_phy * cost_physics
+                dcost = tape.gradient(cost, Wout_param)
+
+                return cost, dcost
+```
+
+---
+transition: fade-out
+---
+```python
+        def np_value(tensor):
+            if isinstance(tensor, tuple):
+                return type(tensor)(*(np_value(t) for t in tensor))
+            else:
+                return tensor.numpy()
+
+        def run(optimizer):
+            optimizer()  # Warmup.
+            result = optimizer()
+            return np_value(result)
+
+        def cost_gradient_lbfgs():
+            init_value = Wout_to_woutparam(self.PI_ESN.Wout)
+            return tfp.optimizer.lbfgs_minimize(
+                cost_gradient,
+                initial_position=init_value,
+                tolerance=1e-9,
+                max_iterations=100,
+                max_line_search_iterations=100,)
+```
+---
+transition: fade-out
+---
+```python
+        for number_X_test_update in range(100):
+            results = run(cost_gradient_lbfgs)
+            theta = woutparam_to_Wout(results.position)
+            self.PI_ESN.Wout = theta
+            self.PI_ESN.predict(theta)
+
+            MSE_1 = np.sum(
+                ((theta @ self.PI_ESN.X_test)[0, :] - self.ESN.output_data_test[0, :]) ** 2) / (self.PI_ESN.test_size)
+            MSE_2 = np.sum(
+                ((theta @ self.PI_ESN.X_test)[1, :] - self.ESN.output_data_test[1, :]) ** 2) / (self.PI_ESN.test_size)
+            MSE = (MSE_1 + MSE_2) / 2
+
+            MSE_ESN_1 = np.sum(
+                ((self.ESN.Wout @ self.ESN.X_test)[0, :] - self.ESN.output_data_test[0, :]) ** 2) / (self.PI_ESN.test_size)
+            MSE_ESN_2 = np.sum(
+                ((self.ESN.Wout @ self.ESN.X_test)[1, :] - self.ESN.output_data_test[1, :]) ** 2) / (self.PI_ESN.test_size)
+            MSE_ESN = (MSE_ESN_1 + MSE_ESN_2) / 2
+
+            self.MSE_list.append(MSE)
+
+        self.output_prediction_PI = theta @ self.PI_ESN.X_test
+
+        return MSE
+```
+
+---
+transition: fade-out
+---
+
+# Resultados PI-ESN vs ESN
+
+- Abrir os HTMLs
+
