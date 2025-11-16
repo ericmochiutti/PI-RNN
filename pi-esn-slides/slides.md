@@ -799,10 +799,11 @@ transition: fade-out
 
 ---
 transition: fade-out
+title: ESN vs PI-ESN results
 ---
 
 <iframe 
-  src="/html/system_vs_esn_piesn_2.html"
-  style="width: 100%; height: 550px; border: none;"
+  src="/html/system_vs_esn_piesn.html"
+  style="width: 105%; height: 550px; border: none;"
 ></iframe>
 

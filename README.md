@@ -52,8 +52,47 @@ This command:
 -   Ensures reproducibility
 
 ------------------------------------------------------------------------
+## 3. Project Structure 
 
-## 3. Van der Pol Simulation
+.
+├── PI_ESN
+│   ├── experiments
+│   │   ├── PI_ESN__20251116_0328
+│   │   │   ├── Wout_heatmaps_scatter.html
+│   │   │   ├── esn_piesn_comparison_linked_X_test.html
+│   │   │   ├── esn_states_X_train.html
+│   │   │   ├── esn_train_test_vanderpol.jpg
+│   │   │   ├── esn_weights.html
+│   │   │   ├── hyperparameter_experiment_config.txt
+│   │   │   ├── system_vs_esn_piesn.html
+│   │   │   └── train_test_data.jpg
+│   ├── model_classes
+│   │   ├── ESN.py
+│   │   ├── ESN_torch.py
+│   │   └── PIESN.py
+│   ├── pi_esn_vanderpol.ipynb
+│   ├── simulation
+│   │   ├── input_signal_generator.py
+│   │   ├── split_data.py
+│   │   └── vdp_simulator.py
+│   └── utils
+│       ├── create_experiment_directory.py
+│       └── save_experiment_config.py
+├── pi-esn-slides
+│   ├── background
+│   ├── components
+│   ├── netlify.toml
+│   ├── package.json
+│   ├── pages
+│   ├── pnpm-lock.yaml
+│   ├── public
+│   ├── slides.md
+│   ├── snippets
+│   └── vercel.json
+├── pyproject.toml
+└── uv.lock
+
+## 4. Van der Pol Simulation
 
 The Van der Pol system is defined as:
 
@@ -72,7 +111,7 @@ Simulation code is located in:
 
 ------------------------------------------------------------------------
 
-## 4. Echo State Network (ESN)
+## 5. Echo State Network (ESN)
 
 The ESN state update equation is:
 
@@ -98,7 +137,7 @@ Configurable parameters include:
 
 ------------------------------------------------------------------------
 
-## 5. Physics-Informed ESN (PI-ESN)
+## 6. Physics-Informed ESN (PI-ESN)
 
 The PI-ESN introduces a hybrid loss function that combines data fitting
 with physics consistency.\
@@ -108,7 +147,7 @@ $$
 \mathcal{L} = \mathcal{L}_{\text{data}} + \lambda_{\text{phys}} \| \mathbf{\dot{{z}}} - f(\mathbf{{z}}, u) \|^2
 $$
 
-## 6. Slidev Presentation
+## 7. Slidev Presentation
 
 This repository includes a full Slidev presentation explaining:
 
