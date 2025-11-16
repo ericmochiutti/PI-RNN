@@ -57,7 +57,7 @@ This command:
 
 The Van der Pol system is defined as:
 
-\[ `\dot{x}`{=tex}\_1 = x_2 \]
+$$ \dot{x} {=tex}\_1 = x_2 $$
 
 \[ `\dot{x}`{=tex}\_2 = `\mu `{=tex}(1 - x_1\^2),x_2 - x_1 + u(t) \]
 
