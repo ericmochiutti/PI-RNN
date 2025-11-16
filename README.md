@@ -1,13 +1,29 @@
-# Physics-Informed Echo State Networks (PI-ESN) for the Van der Pol Oscillator
+# ![Project Icon](./assets/icon.png)
+
+# **Physics-Informed Echo State Networks (PI-ESN) for the Van der Pol Oscillator**
+
+[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)]()\
+[![License:
+MIT](https://img.shields.io/badge/License-MIT-yellow.svg)]()\
+[![Built with
+uv](https://img.shields.io/badge/Environment-uv%20%F0%9F%94%8E-green)]()\
+[![Slidev
+Presentation](https://img.shields.io/badge/Slides-Slidev-orange)]()
+
+> **Reference:**\
+> This implementation is inspired by the methodology described in\
+> **E. Mochiutti, M.H. Terra. *Physics-informed echo state networks for
+> hybrid dynamical modeling*. Neurocomputing, 2025.**\
+> https://doi.org/10.1016/j.neucom.2025.130251
+
+------------------------------------------------------------------------
+
+## 1. Overview
 
 This repository provides a complete and modular implementation of
 **Physics-Informed Echo State Networks (PI-ESN)** applied to the **Van
 der Pol oscillator**.\
 It includes signal generation, nonlinear dynamic simulation, ESN/PI-ESN training, long-term prediction analysis, artifact storage, interactive Plotly visualizations, and a Slidev-based presentation.
-
-------------------------------------------------------------------------
-
-## 1. Overview
 
 The repository implements two main models:
 
@@ -56,29 +72,20 @@ This command:
 ```
 .
 ├── PI_ESN
-│   ├── experiments
-│   │   ├── PI_ESN__20251116_0328
-│   │   │   ├── Wout_heatmaps_scatter.html
-│   │   │   ├── esn_piesn_comparison_linked_X_test.html
-│   │   │   ├── esn_states_X_train.html
-│   │   │   ├── esn_train_test_vanderpol.jpg
-│   │   │   ├── esn_weights.html
-│   │   │   ├── hyperparameter_experiment_config.txt
-│   │   │   ├── system_vs_esn_piesn.html
-│   │   │   └── train_test_data.jpg
+│   ├── experiments # ML experiment outputs
 │   ├── model_classes
 │   │   ├── ESN.py
 │   │   ├── ESN_torch.py
 │   │   └── PIESN.py
-│   ├── pi_esn_vanderpol.ipynb
+│   ├── pi_esn_vanderpol.ipynb # ESN/PI-ESN on Van der Pol system
 │   ├── simulation
 │   │   ├── input_signal_generator.py
 │   │   ├── split_data.py
 │   │   └── vdp_simulator.py
-│   └── utils
+│   └── utils # Helper scripts for experiment management
 │       ├── create_experiment_directory.py
 │       └── save_experiment_config.py
-├── pi-esn-slides
+├── pi-esn-slides # Slidev project for presentation
 │   ├── background
 │   ├── components
 │   ├── netlify.toml
