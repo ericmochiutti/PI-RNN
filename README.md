@@ -53,7 +53,7 @@ This command:
 
 ------------------------------------------------------------------------
 ## 3. Project Structure 
-
+```
 .
 ├── PI_ESN
 │   ├── experiments
@@ -91,7 +91,7 @@ This command:
 │   └── vercel.json
 ├── pyproject.toml
 └── uv.lock
-
+```
 ## 4. Van der Pol Simulation
 
 The Van der Pol system is defined as:
