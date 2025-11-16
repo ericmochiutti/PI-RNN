@@ -58,7 +58,9 @@ This command:
 The Van der Pol system is defined as:
 
 $$
-\dot{x} = y \\
+\dot{x} = y 
+$$
+$$
 \dot{y} = \mu(1 - x^2)y - x + u(t)
 $$
 
@@ -94,11 +96,6 @@ Configurable parameters include:
 -   Washout length\
 -   Random seed for reproducibility
 
-ESN code is located in:
-
-    models/
-        esn.py
-
 ------------------------------------------------------------------------
 
 ## 5. Physics-Informed ESN (PI-ESN)
@@ -108,7 +105,7 @@ with physics consistency.\
 The physics-based term enforces the Van der Pol dynamics:
 
 $$
-\mathcal{L} = \mathcal{L}_{\text{data}} + \lambda_{\text{phys}} \| \mathbf{\dot{\hat{z}}} - f(\mathbf{\hat{z}}, u) \|^2
+\mathcal{L} = \mathcal{L}_{\text{data}} + \lambda_{\text{phys}} \| \mathbf{\dot{{z}}} - f(\mathbf{{z}}, u) \|^2
 $$
 
 ## 6. Slidev Presentation
