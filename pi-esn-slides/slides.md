@@ -805,7 +805,7 @@ title: Reservour States in Training
 
 <iframe 
   src="/html/esn_states_X_train_2.html"
-  style="width: 100%; height: 100%; border: none;"
+  style="width: 120%; height: 100%; border: none;"
 ></iframe>
 
 ---
@@ -815,7 +815,7 @@ title: Reservour States for prediction
 
 <iframe 
   src="/html/esn_piesn_comparison_linked_X_test.html"
-  style="width: 150%; height: 150%; border: none;"
+  style="width: 110%; height: 105%; border: none;"
 ></iframe>
 
 ---
@@ -825,7 +825,7 @@ title: Fixed Weights
 
 <iframe 
   src="/html/esn_weights.html"
-  style="width: 140%; height: 120%; border: none;"
+  style="width: 120%; height: 110%; border: none;"
 ></iframe>
 
 ---
