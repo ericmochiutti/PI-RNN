@@ -2,17 +2,17 @@
 
 # **Physics-Informed Echo State Networks (PI-ESN) for the Van der Pol Oscillator**
 
-[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)]()\
-[![License:
-MIT](https://img.shields.io/badge/License-MIT-yellow.svg)]()\
+[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)]()
 [![Built with
-uv](https://img.shields.io/badge/Environment-uv%20%F0%9F%94%8E-green)]()\
+uv](https://img.shields.io/badge/Environment-uv%20%F0%9F%94%8E-green)]()
 [![Slidev
 Presentation](https://img.shields.io/badge/Slides-Slidev-orange)]()
+[![License:
+MIT](https://img.shields.io/badge/License-MIT-yellow.svg)]()
 
 > **Reference:**\
-> This implementation is inspired by the methodology described in\
-> **E. Mochiutti, M.H. Terra. *Physics-informed echo state networks for
+> For a detailed description of the methodology, see:\
+> **E. Mochiutti, E. A. Antonelo, E. Camponogara. *Physics-informed echo state networks for
 > hybrid dynamical modeling*. Neurocomputing, 2025.**\
 > https://doi.org/10.1016/j.neucom.2025.130251
 
