@@ -1,8 +1,10 @@
 # **Physics-Informed Echo State Networks (PI-ESN) for the Van der Pol Oscillator**
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)]()
-[![Built with uv](https://img.shields.io/badge/Environment-uv%20%F0%9F%94%8E-green)]()
-[![Slidev Presentation](https://img.shields.io/badge/Slides-Slidev-orange)]()
+[![Built with uv](https://img.shields.io/badge/Built%20with-uv%20%F0%9F%94%8E-green)]()
+[![Slidev Presentation](https://img.shields.io/badge/Slides-Slidev-red)]()
+[![TensorFlow](https://img.shields.io/badge/Framework-TensorFlow-FF6F00?logo=tensorflow)]()
+[![Numpy](https://img.shields.io/badge/Library-NumPy-013243?logo=numpy)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)]()
 
 > **Reference:**
