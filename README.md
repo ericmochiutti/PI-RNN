@@ -85,7 +85,7 @@ $$
 \mathcal{L}_{\text{physics}} = \frac{1}{N} \sum_{k=1}^{N} \left\| \dot{\hat{\mathbf{y}}} - f(\hat{\mathbf{y}}, u) \right\|^2
 $$
 
-By using automatic differentiation (via PyTorch) to compute $\dot{\hat{\mathbf{y}}}$, we force the network output to satisfy the Van der Pol vector field $f(\cdot)$.
+By using automatic differentiation (via TensorFlow) to compute $\dot{\hat{\mathbf{y}}}$, we force the network output to satisfy the Van der Pol vector field $f(\cdot)$.
 
 ---
 
