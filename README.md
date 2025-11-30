@@ -98,7 +98,8 @@ The architecture implemented in this repository demonstrates distinct advantages
 ### **Performance Comparison**
 
 ![ESN vs PI-ESN Prediction](assets/result_preview.png)
-*Figure 1: Comparison of free-running prediction. Notice how the PI-ESN (green) maintains the phase and amplitude, while the standard ESN (red) may drift or dampen over time.
+
+Figure 1: Comparison of free-running prediction. Notice how the PI-ESN (green) maintains the phase and amplitude, while the standard ESN (red) may drift or dampen over time.
 ------------------------------------------------------------------------
 ## 4. Project Structure 
 ```
