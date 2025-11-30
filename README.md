@@ -143,7 +143,7 @@ This project uses **`uv`**, a modern Python package manager.
 ```bash
 curl -LsSf [https://astral.sh/uv/install.sh](https://astral.sh/uv/install.sh) | sh
 ```
-### **Step 2: Sync Environment
+### Step 2: Sync Environment
 Clone the repo and sync dependencies exactly as specified in uv.lock.
 ```bash
 uv sync
