@@ -91,9 +91,9 @@ By using automatic differentiation (via PyTorch) to compute $\dot{\hat{\mathbf{y
 
 The architecture implemented in this repository demonstrates distinct advantages over standard ESNs:
 
-    * The PI-ESN successfully captures the **limit cycle** of the Van der Pol oscillator, even when trained on partial data.
-    * Standard ESNs often drift away from the limit cycle during long-term recursive prediction.
-    * By embedding physics, the model generalizes better to unseen input signals.
+* The PI-ESN successfully captures the **limit cycle** of the Van der Pol oscillator, even when trained on partial data.
+* Standard ESNs often drift away from the limit cycle during long-term recursive prediction.
+* By embedding physics, the model generalizes better to unseen input signals.
 
 ### **Performance Comparison**
 
