@@ -43,6 +43,7 @@ $$
 $$
 
 Converted to State-Space form (used in this project):
+
 $$ 
 \dot{x}_1 = x_2 
 $$
